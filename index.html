@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width">
+
+  <title>Looking Glass</title>
+  <meta name="description" content="An electronic looking glass.">
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: url('/background.png') repeat;
+    }
+    #looking-glass {
+      width: 100% !important;
+      height: auto !important;
+    }
+  </style>
+</head>
+<body>
+  <video id="looking-glass"></video>
+
+  <script>
+    var video
+      , getUserMedia = navigator.getUserMedia ||
+          navigator.webkitGetUserMedia ||
+          navigator.mozGetUserMedia ||
+          navigator.msGetUserMedia ||
+          navigator.oGetUserMedia
+      , URL = window.URL || window.webkitURL || window.mozURL ||
+          window.msURL || window.oURL;
+
+    video = document.getElementById('looking-glass');
+
+    getUserMedia.call(navigator, { video: true }, success, error);
+
+    function success(stream) {
+      try {
+        // chrome
+        video.src = URL.createObjectURL(stream);
+      }
+      catch(e) {
+        // firefox, opera
+        video.src = stream;
+      }
+
+      video.play();
+    }
+
+    function error() {
+      alert('Your browser does not support the getUserMedia API, sorry bud.');
+    }
+  </script>
+</body>
+</html>
