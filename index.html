@@ -35,7 +35,11 @@
 
     video = document.getElementById('looking-glass');
 
-    getUserMedia.call(navigator, { video: true }, success, error);
+    if (getUserMedia) {
+      getUserMedia.call(navigator, { video: true }, success, error);
+    }
+
+    else { error(); }
 
     function success(stream) {
       try {
